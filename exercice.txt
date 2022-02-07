@@ -20,7 +20,7 @@ Cet exercice permet d'évaluer vos connaissances en Angular 10, n'hésitez pas �
 directives structurelles ou customs, de pipes, guards, resolvers etc.
 
 
-----------------
+---------------- 
 Compléments API
 ----------------
 
