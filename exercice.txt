@@ -1,0 +1,78 @@
+----------------
+Introduction
+----------------
+La plateforme Click and Control n'est accessible qu'aux utilisateurs disposant d'un compte préalabablement créé par une entreprise. L'accès se fait par une authentification basique redistribuant un token qui permet alors à l'utilisateur d'utiliser l'ensemble des services mis à disposition de la plateforme.
+
+On se propose ici de simuler cette phase d'identification à l'aide d'un projet Angular.
+
+----------------
+Enoncé
+----------------
+
+Vous devrez mettre en place la structure d'un projet angular-cli. Il vous est demandé d'implémenter:
+
+    => Un module d'authentification (formulaire de saisie id/ password)
+    => Un service permettant l'appel à la route d'authentification
+    => En cas d'echec de l'authentification, une erreur devra être retournée à l'utilisateur. Autrement, une redirection devra être faîte vers une seconde page
+     => Dans cette seconde page, le token récupéré à l'authentification devra être utilisé pour récupérer l'ensemble des voyageurs disponibles à l'aide de l'API Profils V2
+
+Cet exercice permet d'évaluer vos connaissances en Angular 10, n'hésitez pas à enrichir le code de différentes
+directives structurelles ou customs, de pipes, guards, resolvers etc.
+
+
+----------------
+Compléments API
+----------------
+
+L'authentification permet au service Web "AUTH" d'identifier un utilisateur sous reserve que le couple (id, password) soit correct. Un token jwt est transmis en retour, celui-ci permettra alors au navigateur d'acceder à l'ensemble des services mis à disposition de la plateforme. Le token doit donc être conservé tout au long de la session.
+
+API Auth: 
+Cette route procède à l'authentification. Elle hash le mot de passe et le compare avec celui disponible en base de données Cassandra. En cas d'erreur de saisie, une erreur est retournée par l'API. Autrement, un token est transmis.
+
+Request (JSON)
+URL: POST https://api.qal.travelplanet.click/auth/v1/click
+Body:
+{
+  "site_id": "string",
+  "user_id": "string",
+  "password": "string"
+}
+
+Response (JSON)
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaXRlSWQiOiJRNDZYIiwidXNlcklkIjoiZHJlYW5veGFsMSIsImxhbmd1YWdlIjoiRU4iLCJsYXN0TmFtZSI6IkRyZWFubyIsImZpcnN0TmFtZSI6IkFsZXhhbmRyZSIsImN1cnJlbmN5IjoiRVVSIiwicm9sZXMiOlsiQWRtaW5pc3RyYXRvciIsIlByb2ZpbGUgTWFuYWdlciIsIlRyYXZlbCBBcHByb3ZlciIsIlRyYXZlbCBBcnJhbmdlciIsIlRyYXZlbGVyIl0sImJvb2tSb2xlcyI6eyJhZG1pbiI6dHJ1ZSwiYXBwIjp0cnVlLCJhcnIiOnRydWUsInR2bCI6dHJ1ZX0sImJvb2tBdXRoIjp7InNpdGUiOnRydWUsImd1ZXN0Ijp0cnVlLCJtZSI6dHJ1ZX0sImRlbGVnYXRpb24iOltdLCJjYW5fY2hhbmdlIjp7ImFyciI6dHJ1ZX0sImlzX3Bhc3N3b3JkX2V4cGlyZWQiOmZhbHNlLCJpc190cCI6dHJ1ZSwib2RtX2FjdGl2YXRlZCI6ZmFsc2UsIm5lZWRfZGVyb2dhdGlvbiI6ZmFsc2UsImZlZXNfYWN0aXZhdGVkIjp0cnVlLCJpbnN1cmFuY2VzX2FjdGl2YXRlZCI6dHJ1ZSwic2Vzc2lvblV1aWQiOiIyYzQxNDNlMC0xMjZlLTExZWMtOWE4MC1mMzY5NmM2YzAyNWQiLCJpYXQiOjE2MzEzMDI0OTMsImV4cCI6MTYzMTM4ODg5M30.baWCc5LuhOW9zydwB30r9NgpzNw4Cgjoq9EZSJo2xCk"
+}
+
+Un compte de demonstration vous est proposé:
+site_id: Q46X
+user_id: dreanoxal1
+password: Abcd1234!
+
+
+Les services permettent de faire vivre la plateforme. L'API Profils V2 regroupe l'ensemble des fonctionnalités directement liées aux données utilisateurs.
+
+API Profils 
+La route "profil/booking-rules/travellers-list" permet à l'utilisateur authentifié de récupérer l'ensemble des voyageurs qu'il peut faire voyager au sein de la plateforme. Le resultat est une liste de traveller que l'on peut selectionner dans le cadre d'une reservation.
+
+Request (JSON)
+URL: GET https://api.qal.travelplanet.click/profils_v2/v1/profil/booking-rules/travellers-list
+Params:
+{
+	"access_token": "string"
+}
+
+Response (JSON)
+  {"result": {
+    "label": "Last travellers",
+    "travellers": [
+      {
+        "site_id": "Q46X",
+        "user_id": "dreanoxal1",
+        "last_name": "Dreano",
+        "first_name": "Alexandre",
+        "birthday": "1994-01-10T23:00:00Z",
+        "mail": "alexandre.dreano@my-travelplanet.com"
+      }
+    ]
+  }
+}
