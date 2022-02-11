@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
         Emitters.authEmitter.emit(true);
       },
       err => {
-        this.message = 'You are not logged in';
+        this.message = "Vous n'\êtes pas connecté";
         Emitters.authEmitter.emit(false);
       }
     );
