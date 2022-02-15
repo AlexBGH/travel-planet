@@ -1,9 +1,98 @@
-<form>
-    <h1 class="h3 mb-3 fw-normal">Connexion</h1>
+<div class="col-md-12">
+    <div class="card card-container">
+      <img
+        id="profile-img"
+        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+        class="profile-img-card"
+      />
+      <form
+        *ngIf="!isLoggedIn"
+        name="form"
+        (ngSubmit)="f.form.valid && onSubmit()"
+        #f="ngForm"
+        novalidate
+      >
+        <div class="form-group">
+          <label for="site_id">ID</label>
+          <input
+            type="text"
+            class="form-control"
+            name="site_id"
+            [(ngModel)]="form.site_id"
+            required
+            #username="ngModel"
+          />
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="username.errors && f.submitted"
+          >
+            ID requis !
+          </div>
+          <label for="user_id">Nom d'utilisateur</label>
+          <input
+            type="text"
+            class="form-control"
+            name="user_id"
+            [(ngModel)]="form.user_id"
+            required
+            #username="ngModel"
+          />
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="username.errors && f.submitted"
+          >
+            Nom d'utilisateur requis !
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            [(ngModel)]="form.password"
+            required
+            minlength="6"
+            #password="ngModel"
+          />
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="password.errors && f.submitted"
+          >
+            <div *ngIf="password.errors['required']">Mot de passe requis !</div>
+            <div *ngIf="password.errors['minlength']">
+              Le mot de passe doit contenir au moins 6 caractères
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-block">
+            Connexion
+          </button>
+        </div>
+        <div class="form-group">
+          <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="f.submitted && isLoginFailed"
+          >
+            Connexion échouée {{ errorMessage }}
+          </div>
+        </div>
+      </form>
   
-    <input formControlName="email" type="email" class="form-control" placeholder="Email" required>
-  
-    <input formControlName="password" type="password" class="form-control" placeholder="Mot de passe" required>
-  
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Envoyer</button>
-</form>
+      <div class="alert alert-success" *ngIf="isLoggedIn">
+        Vous êtes connecté.
+      </div>
+      
+
+        <div class="form-group">
+            <button class="btn btn-primary btn-block" (click)="logout()">
+                Déconnexion
+            </button>
+        </div>
+    </div>
+  </div>
