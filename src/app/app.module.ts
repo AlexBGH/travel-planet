@@ -7,12 +7,14 @@ import {LoginComponent} from './login/login.component';
 import {NavComponent} from './nav/nav.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { TravellersListComponent } from './travellers-list/travellers-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    NavComponent
+    NavComponent,
+    TravellersListComponent
   ],
   imports: [
     BrowserModule,

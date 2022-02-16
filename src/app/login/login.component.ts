@@ -44,7 +44,7 @@ export class LoginComponent {
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.tokenStorage.getUser().roles;
-        this.reloadPage();
+        this.router.navigateByUrl('/profil/booking-rules/travellers-list');
       },
       error: err => {
         this.errorMessage = err.error.message;
